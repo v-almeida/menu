@@ -1,4 +1,4 @@
-# 🍽️ Menu API - Restaurante
+# 🍔 Restaurant Menu API
 
 API REST desenvolvida com **Spring Boot** para gerenciamento de um menu de restaurante.
 
@@ -23,13 +23,59 @@ API REST desenvolvida com **Spring Boot** para gerenciamento de um menu de resta
 
 ---
 
+## 🏗️ Arquitetura
+
+O projeto segue uma arquitetura em camadas simples:
+
+* **Controller** → recebe e responde requisições HTTP
+* **Repository** → acesso ao banco de dados
+* **DTOs** → transferência de dados (entrada/saída)
+* **Entity** → representação da tabela no banco
+
+---
+
+## 🔄 Fluxo da aplicação
+
+1. Cliente envia requisição HTTP
+2. Controller recebe os dados
+3. DTO processa entrada/saída
+4. Repository persiste no banco
+5. Resposta é retornada ao cliente
+
+---
+
+## 🧠 Decisões técnicas
+
+* Uso de **DTOs** para evitar exposição direta da entidade
+* Utilização do **PostgreSQL** como banco relacional
+* Uso de **JPA/Hibernate** para abstração de persistência
+* Uso de **Lombok** para reduzir código boilerplate
+
+---
+
+## 🗄️ Modelo de dados
+
+Tabela: `foods`
+
+| Campo | Tipo    |
+| ----- | ------- |
+| id    | Long    |
+| title | String  |
+| image | String  |
+| price | Integer |
+
+---
+
 ## 🧱 Estrutura do projeto
 
 ```
 src/main/java/com/example/menu
 ├── controller
-├── model
-├── repository
+├── food
+│   ├── Food.java
+│   ├── FoodRepository.java
+│   ├── FoodRequestDTO.java
+│   ├── FoodResponseDTO.java
 ```
 
 ---
@@ -93,13 +139,37 @@ GET /food
 POST /food
 ```
 
-Exemplo de body:
+### 📥 Exemplo de requisição (POST)
 
 ```json
 {
-  "nome": "Hambúrguer",
-  "preco": 25.0
+  "title": "Smash Burger",
+  "image": "https://cdn.abrahao.com.br/base/f42/a37/d11/smash-burger.jpg",
+  "price": 25
 }
+```
+
+### 📤 Exemplo de resposta (GET)
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Smash Burger",
+    "image": "https://cdn.abrahao.com.br/base/f42/a37/d11/smash-burger.jpg",
+    "price": 25
+  }
+]
+```
+
+---
+
+## 🌐 CORS
+
+A API está configurada para aceitar requisições externas:
+
+```java
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 ```
 
 ---
@@ -113,16 +183,16 @@ Você pode testar a API usando:
 
 ---
 
-## 💡 Melhorias futuras
+## 🚧 Melhorias futuras
 
-* Implementar update e delete (CRUD completo)
-* Validação de dados
-* Tratamento de exceções
-* Camada de Service
+* Implementar PUT e DELETE (CRUD completo)
+* Adicionar camada de Service
+* Validação de dados (`@Valid`)
+* Tratamento de exceções (`@ControllerAdvice`)
 * Autenticação e autorização
 
 ---
 
 ## 👨‍💻 Autor
 
-Vítor 🚀
+Desenvolvido por **Vítor Almeida** 🚀
